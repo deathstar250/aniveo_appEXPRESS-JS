@@ -1,0 +1,29 @@
+<html>
+  <head>
+      <link href="/styles/index.css" rel="stylesheet"></link>
+      <link href="/styles/categorias.css" rel="stylesheet"></link>
+  </head>
+
+  <body>
+    <div class="categoria-head">
+      <h1>
+        <%= categoria.nombre %>
+      </h1>
+      <div class="categoria-body">
+        <% categoria.cosas.forEach(function(cosa) { %>
+          <h2>
+            <a href=<%= `/cosas/${cosa.id}` %>>
+              <%= cosa.nombre %>
+            </a>
+          </h2>
+        <% }) %> 
+      </div>
+      <div class="add">
+          <form action="/cosas" method="POST">
+            <input name="nombre" placeholder="Nombre"/>
+            <input type="submit" value="Agregar"/>
+          </form>
+        </div>
+    </div>
+  </body>
+</html>

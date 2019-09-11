@@ -13,7 +13,7 @@ let pool = new pg.Pool({
   database: 'ANIVEO',
   password: 'root',
   host: 'localhost',
-  port: 4444, 
+  port: 4444,   
   max: 10 
 });
 
@@ -51,7 +51,7 @@ app.get('/GetName', (request,response) => {
 });
 
 
-const ONE_LINK = "select nombre from usuario where nombre = 'Maciel'";
+const ONE_LINK = "select link from contenido where id = 1";
 
 app.get('/GetLink', (request,response) => {
   pool.query(ONE_LINK , (err,results) => {

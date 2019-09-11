@@ -2,29 +2,30 @@ const express = require('express');
 const bodyParser = require('body-parser');
 //const morgana = require('morgana');
 let pg = require('pg');
-const PORT = 3002;
+const cors = require('cors');
+const PORT = 3003;
 
 
 
 const app = express();
 let pool = new pg.Pool({
   user: 'postgres',
-  database: 'Aniveo',
+  database: 'ANIVEO',
   password: 'root',
   host: 'localhost',
-  port: 4444,
+  port: 4444, 
   max: 10 
 });
 
 
 
-
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 //app.use(morgana('dev'));
 
 app.use(function(require, response, next) {
-  response.header("Access-Control-Allow-Origin", "YOUR-DOMAIN.TLD"); // update to match the domain you will make the request from
+  response.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
   response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
@@ -35,19 +36,36 @@ pool.connect((err,db,done) => {
   console.log("concectado makinola");
 });
 
-const ALL_LINKS = 'select * from contenido';
+const ONE_USER = "select nombre from usuario where nombre = 'Maciel'";
 
-app.get('/GetLink', (request,response) => {
-  pool.query(ALL_LINKS, (err,rusults) => {
+app.get('/GetName', (request,response) => {
+  pool.query(ONE_USER , (err,results) => {
     if(err){
       return response.send(err);
     }else{
       return response.json({
-        contenido: rusults
+        contenido:  results.rows
       });
     }
   });
 });
+
+
+const ONE_LINK = "select nombre from usuario where nombre = 'Maciel'";
+
+app.get('/GetLink', (request,response) => {
+  pool.query(ONE_LINK , (err,results) => {
+    if(err){
+      return response.send(err);
+    }else{
+      return response.json({
+        link:  results.rows
+      });
+    }
+  });
+});
+
+  
 
 app.get('/', (request,response) => {
   response.send('go to /products to see products');

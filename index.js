@@ -35,7 +35,7 @@ pool.connect((err,db,done) => {
   console.log("concectado makinola");
 });
 
-const ALL_LINKS = 'select link from contenido';
+const ALL_LINKS = 'select * from contenido';
 
 app.get('/GetLink', (request,response) => {
   pool.query(ALL_LINKS, (err,rusults) => {
@@ -43,16 +43,25 @@ app.get('/GetLink', (request,response) => {
       return response.send(err);
     }else{
       return response.json({
-        link: rusults
+        contenido: rusults
       });
     }
   });
 });
 
 app.get('/', (request,response) => {
-  response.send('main');
+  response.send('go to /products to see products');
 });
 
+
+const add_film = "insert into contenido values (1,'El padrino','Mafia','La historia de la familia de los corleone', 1, 'Michel Corleone', '2019-09-09','https://www.youtube.com/embed/gCVj1LeYnsc',3,1);"
+
+
+
+app.get('/addFilm', (req,res) => {
+  const {link} = req.query;
+  response.send('pelicula agregada');
+});
 
 
 

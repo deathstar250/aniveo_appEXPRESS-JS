@@ -10,11 +10,11 @@ const PORT = 3003;
 const app = express();
 let pool = new pg.Pool({
   user: 'postgres',
-  database: 'ANIVEO',
-  password: 'root',
-  host: 'localhost',
-  port: 4444,   
-  max: 10 
+  database: 'Aniveo',
+  password: 'aniveo',
+  host: '10.1.2.5',
+  port: 5432,   
+  max: 10   
 });
 
 
@@ -36,13 +36,15 @@ pool.connect((err,db,done) => {
   console.log("concectado makinola");
 });
 
-const ONE_USER = "select nombre from usuario where nombre = 'Maciel'";
+const ONE_USER = "select nombre from usuario where nombre = 'Kevin'";
 
 app.get('/GetName', (request,response) => {
   pool.query(ONE_USER , (err,results) => {
     if(err){
+      console.log(err)
       return response.send(err);
     }else{
+      console.log(results)      
       return response.json({
         contenido:  results.rows
       });
@@ -51,7 +53,7 @@ app.get('/GetName', (request,response) => {
 });
 
 
-const ONE_LINK = "select link from contenido where id = 1";
+const ONE_LINK = "select link from contenido where id = 4";
 
 app.get('/GetLink', (request,response) => {
   pool.query(ONE_LINK , (err,results) => {

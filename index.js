@@ -10,12 +10,22 @@ const PORT = 3003;
 const app = express();
 let pool = new pg.Pool({
   user: 'postgres',
-  database: 'Aniveo',
-  password: 'aniveo',
-  host: '10.1.2.5',
-  port: 5432,   
+  database: 'Aniveo2',
+  password: 'root',
+  host: 'localhost',
+  port: 4444,   
   max: 10   
 });
+
+// let pool = new pg.Pool({
+//   user: 'postgres',
+//   database: 'Aniveo',
+//   password: 'aniveo',
+//   host: '10.1.2.5',
+//   port: 5432,   
+//   max: 10   
+// });
+
 
 
 
@@ -62,6 +72,21 @@ app.get('/GetLink', (request,response) => {
     }else{
       return response.json({
         link:  results.rows
+      });
+    }
+  });
+});
+
+
+const CONTENIDO = "select * from contenido";
+
+app.get('/GetContenido-home', (request,response) => {
+  pool.query(CONTENIDO , (err,results) => {
+    if(err){
+      return response.send(err);
+    }else{
+      return response.json({
+        contenido:  results.rows
       });
     }
   });

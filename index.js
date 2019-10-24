@@ -3,28 +3,28 @@ const bodyParser = require('body-parser');
 //const morgana = require('morgana');
 let pg = require('pg');
 const cors = require('cors');
-const PORT = 3003;
+const PORT = 3001;
 
 
 
 const app = express();
-let pool = new pg.Pool({
-  user: 'postgres',
-  database: 'Aniveo2',
-  password: 'root',
-  host: 'localhost',
-  port: 4444,   
-  max: 10   
-});
-
 // let pool = new pg.Pool({
 //   user: 'postgres',
-//   database: 'Aniveo',
-//   password: 'aniveo',
-//   host: '10.1.2.5',
-//   port: 5432,   
+//   database: 'Aniveo2',
+//   password: 'root',
+//   host: 'localhost', 
+//   port: 4444,   
 //   max: 10   
 // });
+
+ let pool = new pg.Pool({
+  user: 'postgres',
+  database: 'aniveo',
+  password: 'aniveo',
+  host: '10.1.2.5',
+  port: 5432,   
+  max: 10   
+});
 
 
 
@@ -35,7 +35,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //app.use(morgana('dev'));
 
 app.use(function(require, response, next) {
-  response.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+  response.header("Access-Control-Allow-Origin", "*");
   response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
@@ -78,7 +78,7 @@ app.get('/GetLink', (request,response) => {
 });
 
 
-const CONTENIDO = "select * from contenido";
+const CONTENIDO = "select * from view_contenido";
 
 app.get('/GetContenido-home', (request,response) => {
   pool.query(CONTENIDO , (err,results) => {
@@ -101,29 +101,8 @@ app.get('/', (request,response) => {
 
 const add_film = "insert into contenido values (1,'El padrino','Mafia','La historia de la familia de los corleone', 1, 'Michel Corleone', '2019-09-09','https://www.youtube.com/embed/gCVj1LeYnsc',3,1);"
 
-
-
 app.get('/addFilm', (req,res) => {
   const {link} = req.query;
   response.send('pelicula agregada');
 });
 
-
-
-/*  
-  if(err) {
-    return console.log(err);
-  }else {
-    db.query('SELECT * FROM USUARIO'), (err,table, result,fields) => {
-      if (err){
-        return console.log(err);
-      }else {
-        //console.log(db);
-        return console.log(table.rows);
-      }
-    }  
-  }
-  
-  //console.log(db);
-});
-*/
